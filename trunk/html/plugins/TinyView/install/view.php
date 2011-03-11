@@ -31,8 +31,7 @@ $tpl_show_page_header = true;
 $tpl_force_readonly = false;
 $tpl_fields_config_option = 'bug_view_page_fields';
 
-$f_bug_id = gpc_get_int( 'id' );
-$tpl_view = event_signal( 'EVENT_VIEW_BUG_BEGIN', $g_cache_user, $f_bug_id);
+$tpl_view = event_signal( 'EVENT_VIEW_BUG_BEGIN', $g_cache_user );
 $tpl_view_include = $tpl_view['TinyView']['switch_view'][0]; 
 
 include ($tpl_view_include);
