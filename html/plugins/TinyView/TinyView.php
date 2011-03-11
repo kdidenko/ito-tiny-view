@@ -13,31 +13,53 @@ require_once 'core/Helper.php';
 class TinyViewPlugin extends MantisPlugin {
 	
 	/**
+	 * Method used to get config values when plugin_config_get API can't be used yet.
+	 * @param string $key
+	 * @return Ambigous <NULL, string>
+	 */
+	private function getConfig($key){
+		$config = $this->config();
+		return array_key_exists($key, $config) ? $config[$key] : null;
+	}
+	
+	/**
 	 * Methods used for making a backup of native Mantis files required to be changed.
 	 */
 	private function doBackup() {
-		
+		$file = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('view_file');
+		$newfile = $file . '.save';
+		file_exists($file) ? rename($file, $newfile): null;
 	}
 	
 	/**
 	 * Method used to rollback the backuped Mantis native files during plugin uninstall process.
 	 */
 	private function doRollback() {
-		
+		$file = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('view_file');
+		$newfile = $file . '.save';
+		file_exists($newfile) ? rename($newfile, $file): null;
 	}	
 	
 	/**
 	 * Method used by installer to copy new files into Mantis root directory.
 	 */
 	private function doCopy() {
-		
+		$file = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('instal_path') . $this->getConfig('view_file');
+		$newfile = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('view_file');
+		file_exists($file) ? copy($file, $newfile): null;
+		$file = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('instal_path') . $this->getConfig('tiny_file');
+		$newfile = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('tiny_file');
+		file_exists($file) ? copy($file, $newfile): null;
 	}
 	
 	/**
 	 * Method used by installer during plugin uninstall process
 	 */
 	private function doRemove() {
-		
+		$file = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('view_file');
+		file_exists($file) ? unlink($file) : null;
+		$file = $_SERVER[DOCUMENT_ROOT] . '/' . $this->getConfig('tiny_file');
+		file_exists($file) ? unlink($file) : null;
 	}	
 	
 	/** 
@@ -89,7 +111,8 @@ class TinyViewPlugin extends MantisPlugin {
 	 */
 	public function config() {
 		return array ('view_file' => 'view.php', 
-					  'tiny_file' => 'bug_view_inc_tiny.php', 
+					  'tiny_file' => 'bug_view_inc_tiny.php',
+					  'instal_path' => 'plugins/TinyView/install/', 
 					  'standard' => 'bug_view_inc.php', 
 					  'mantis_user_table' => 'mantis_user_table', 
 					  'mantis_tiny_table' => 'mantis_tiny_view', 
