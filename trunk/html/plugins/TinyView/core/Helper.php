@@ -41,14 +41,31 @@ class Helper {
 		return $result;
 	}
 	
+	/**
+	 * Method used to add the table with additional setting options.
+	 * 1. The category ID that will be used for the submited task by default.
+	 * 2. Default assignee ID that will handle the task further. 
+	 * @param Integer $user ID
+	 * @param Integer $project ID
+	 * @param Integer $category ID
+	 * @param Integer $assignee ID
+	 * @return true or false depending on the result.
+	 */
 	public function add($user, $project) {
+		//TODO: a stub to be replaced with the actual functionality.
+		return true ? true: false;
+	}
+	
+	
+	public function save($user, $project, $category, $assignee){		
 		$result = null;
 		if ($user && $user != '' && $project && $project != '') {
-			$query = "INSERT INTO " . plugin_config_get ( 'mantis_tiny_table' ) . " (user_id, project_id) VALUES ($user, $project)";
+			$query = "INSERT INTO " . plugin_config_get ( 'mantis_tiny_table' ) . 
+					  " (user_id, project_id, category_id, assignee_id) VALUES ($user, $project, $category, $assignee)";
 			$result = db_query_bound ( $query );
 		}
-		return $result;
-	}
+		return $result;		
+	} 
 	
 	public function remove($id) {
 		$result = null;

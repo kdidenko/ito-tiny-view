@@ -96,7 +96,7 @@ var tinyview = {
 		</td>
 	</tr>
 		<td class="center" colspan="3">
-			<input type="submit" class="button" id="apply" value="<?php echo plugin_lang_get( 'save' )?>" disabled="disabled" />
+			<input type="submit" class="button" id="apply" value="<?php echo plugin_lang_get( 'apply' )?>" disabled="disabled" />
 		</td>
 	</table>
 </div>
