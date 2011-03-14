@@ -164,7 +164,7 @@ class TinyViewPlugin extends MantisPlugin {
 	
 	public function switch_view($event, $user = null) {
 		$t_project = helper_get_current_project();
-		$result = $result = array (plugin_config_get ( 'standard_view' ) );
+		$result = array (plugin_config_get ( 'standard_view' ) );
 		if ($user) {
 			$helper = Helper::getInstance ();
 			if ($helper->isTinyView ( $user['id'], $t_project )) {
@@ -176,14 +176,13 @@ class TinyViewPlugin extends MantisPlugin {
 	
 	public function switch_report($event, $user = null ) {
 		$t_project = helper_get_current_project();
-		$result = $result = array (plugin_config_get ( 'standard_report' ) );
+		$result = array (plugin_config_get ( 'standard_report' ) );
 		if ($user) {
 			$helper = Helper::getInstance ();
 			if ($helper->isTinyView ( $user['id'], $t_project )) {
 				$result = array (plugin_config_get ( 'tiny_report' ) );
 			}
-		}
-		
+		}		
 		return $result;
 	}
 	
