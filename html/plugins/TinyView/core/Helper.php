@@ -41,6 +41,25 @@ class Helper {
 		return $result;
 	}
 	
+	public function getAssigneeOptions($id) {
+		$result = '';
+		$t_projects = project_get_all_user_rows ( $id );
+		for($i = 0; $i < count ( $t_projects ); $i ++) {
+			$result .= '<option value="' . $t_projects [$i] ['id'] . '">' . $t_projects [$i] ['realname'] . "</option>\r";
+		}
+		
+		return $result;
+	}
+	
+	public function getCategoriesOptions($id) {
+		$result = '';
+		$t_projects = category_get_all_rows ( $id );
+		for($i = 0; $i < count ( $t_projects ); $i ++) {
+			$result .= '<option value="' . $t_projects [$i] ['id'] . '">' . $t_projects [$i] ['name'] . "</option>\r";
+		}
+		return $result;
+	}
+	
 	/**
 	 * Method used to add the table with additional setting options.
 	 * 1. The category ID that will be used for the submited task by default.
@@ -51,12 +70,6 @@ class Helper {
 	 * @param Integer $assignee ID
 	 * @return true or false depending on the result.
 	 */
-	public function add($user, $project) {
-		//TODO: a stub to be replaced with the actual functionality.
-		return true ? true: false;
-	}
-	
-	
 	public function save($user, $project, $category, $assignee){		
 		$result = null;
 		if ($user && $user != '' && $project && $project != '') {
