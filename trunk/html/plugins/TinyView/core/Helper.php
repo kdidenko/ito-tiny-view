@@ -89,6 +89,24 @@ class Helper {
 		return $result;
 	}
 	
+	public function getDefCategory($user, $project){
+		$result = '';
+		$query = 'SELECT category_id FROM mantis_tiny_view
+				WHERE user_id =' . $user .' AND project_id=' . $project;
+		$set = db_query_bound ( $query );
+		$result = db_fetch_array ( $set );
+		return $result!=NULL ? $result['category_id'] : false;
+	}
+	
+	public function getDefAssignee($user, $project){
+		$result = '';
+		$query = 'SELECT assignee_id FROM mantis_tiny_view
+				WHERE user_id =' . $user .' AND project_id=' . $project;
+		$set = db_query_bound ( $query );
+		$result = db_fetch_array ( $set );
+		return $result!=NULL ? $result['assignee_id'] : false;
+	}
+	
 	public function getTinyTable() {
 		$result = '';
 		$query = 'SELECT t.id, user_id, project_id, realname, name ' . 'FROM ' . 
