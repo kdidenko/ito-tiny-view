@@ -149,7 +149,9 @@ class TinyViewPlugin extends MantisPlugin {
 					  'mantis_user_table' => 'mantis_user_table', 
 					  'mantis_tiny_table' => 'mantis_tiny_view', 
 					  'order_field' => 'realname', 
-					  'projects_list' => '?page=TinyView/projects-list', 
+					  'projects_list' => '?page=TinyView/projects-list',
+					  'asiignee_list' => '?page=TinyView/assignee-list',
+					  'categories_list' => '?page=TinyView/categories-list',
 					  'tiny_table' => '?page=TinyView/tiny-table'
 		);	
 	}

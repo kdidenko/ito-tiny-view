@@ -26,11 +26,15 @@
 $s_plugin_TinyView_title = 'Tiny View for Mantis';
 $s_plugin_TinyView_description = 'Adds possibility for administrator to limit the fields list that are visible to selected user.';
 $s_plugin_TinyView_config = 'Configuration';
+$s_plugin_TinyView_assignee = 'Default Assignee';
+$s_plugin_TinyView_category = 'Default Category';
 $s_plugin_TinyView_apply = 'Apply';
 $s_plugin_TinyView_save = 'Save';
 $s_plugin_TinyView_tiny = 'Tiny View'; 
 $s_plugin_TinyView_project = 'Project';
 $s_plugin_TinyView_user = 'User';
+$s_plugin_TinyView_select_category = 'Select a default category';
+$s_plugin_TinyView_select_assignee = 'Select a default assignee';
 $s_plugin_TinyView_select_project = 'Select a project';
 $s_plugin_TinyView_select_user = 'Select a user';
 $s_plugin_TinyView_remove = "Remove";

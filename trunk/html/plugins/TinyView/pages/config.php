@@ -16,6 +16,7 @@ $(document).ready(function() {
 		var str = $(this).serialize();
 		$.post($(this).attr('action'), str, function(data){
 			tinyview.reload();
+			//tinyview.settings();
 		});
 		e.preventDefault();
 	 });
@@ -35,12 +36,34 @@ var tinyview = {
 			}else{
 				tinyview.disablectrl();
 			}
-		},		
+		},
+		projectchange: function(e) {
+			if(e.selectedIndex > 0)  {
+				var search = '<?php echo plugin_config_get('asiignee_list')?>' + '&id='+e.value;
+				$.post(search, function(data){
+					if(data && data != ''){
+						$('#assignee').removeAttr('disabled');
+						$('#assignee').html(data);
+					}	
+				});
+				var search = '<?php echo plugin_config_get('categories_list')?>' + '&id='+e.value;
+				$.post(search, function(data){
+					if(data && data != ''){
+						$('#category').removeAttr('disabled');
+						$('#category').html(data);
+					}	
+				});
+			}else{
+				tinyview.disablectrl();
+			}
+		},	
 		marked: function(e) {
 			if(e.checked){
 				$('#apply').removeAttr('disabled');
+				$('#setting').fadeIn('fast', function() {});
 			}else{
 				$('#apply').attr('disabled', 'disabled');
+				$('#setting').fadeOut('slow', function() {});
 			}
 		},
 		remove: function(e){
@@ -52,6 +75,11 @@ var tinyview = {
 		reload: function(){
 			$.get('<?php echo plugin_config_get('tiny_table')?>', function(data){
 				$('#list').html(data);
+			});
+		},
+		settings: function(){
+			$.get('<?php echo plugin_config_get('tiny_setting')?>', function(data){
+				$('#setting').html(data);
 			});
 		},
 		disablectrl: function(){
@@ -86,7 +114,7 @@ var tinyview = {
 		</td>
 		<td class="projects">
 			<label for="project"><?php echo plugin_lang_get('project')?></label>
-			<select id="project" name="project" disabled="disabled">
+			<select id="project" name="project" disabled="disabled" onchange="tinyview.projectchange(this)">
 				<option><?php echo plugin_lang_get('select_project')?></option>			
 			</select>		
 		</td>
@@ -95,15 +123,31 @@ var tinyview = {
 			<input id="tiny" type="checkbox" name="tiny" disabled="disabled" onclick="tinyview.marked(this)" />
 		</td>
 	</tr>
+	<tr <?php echo helper_alternate_class( )?> id="setting" style="display: none">
+		<td class="projects">
+			<label for="assignee"><?php echo plugin_lang_get('assignee')?></label>
+			<select id="assignee" name="assignee" disabled="disabled">
+				<option><?php echo plugin_lang_get('select_assignee')?></option>			
+			</select>		
+		</td>
+		<td class="projects"  colspan="2">
+			<label for="category"><?php echo plugin_lang_get('category')?></label>
+			<select id="category" name="category" disabled="disabled">
+				<option><?php echo plugin_lang_get('select_category')?></option>			
+			</select>		
+		</td>
+	</tr>
+	<tr>
 		<td class="center" colspan="3">
 			<input type="submit" class="button" id="apply" value="<?php echo plugin_lang_get( 'apply' )?>" disabled="disabled" />
 		</td>
+	</tr>
 	</table>
 </div>
 <div id="list">
 <!-- List begin -->
 <!-- List end -->
-</div>	
+</div>
 	
 	
 <?php 	
