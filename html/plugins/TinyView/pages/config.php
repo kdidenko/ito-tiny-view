@@ -7,6 +7,7 @@
 	access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
 	html_page_top( plugin_lang_get( 'title' ) );
+	//TODO: remove inline JavaScript into external file 
 ?>	
 <script type="text/javascript" src="<?php echo plugin_file('jquery-151min.js') ?>"></script>
 <script type="text/javascript">
@@ -147,9 +148,7 @@ var tinyview = {
 <div id="list">
 <!-- List begin -->
 <!-- List end -->
-</div>
-	
-	
+</div>	
 <?php 	
 	html_page_bottom();
 ?>
