@@ -20,7 +20,7 @@
  * @file
  *
  * @author Kostyantyn Didenko, kdidenko@ito-global.com
- * @author various developers
+ * @author Andrew Stabryn, astabryn@ito-global.com
  */
 
 $s_plugin_TinyView_title = 'Tiny View for Mantis';

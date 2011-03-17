@@ -1,17 +1,34 @@
 <?php
 
+/**
+ * TinyView Plugin Helper singleton class
+ * @author kdidenko
+ * @author astabryn
+ */
+
 class Helper {
 	
 	private $instance = null;
 	
+	/**
+	 * Hidden constructor. Singleton pattern
+	 */
 	private final function __construct() {
 	}
 	
+	/**
+	 * Default method used to retreive Helper Class instance
+	 * @return Helper
+	 */
 	public static function getInstance() {
 		$instance = $instance == null ? new Helper () : $instance;
 		return $instance;
 	}
 	
+	/**
+	 * Builds the Users selection table.
+	 * @return string
+	 */
 	public function getUsersOptions() {
 		$result = '';
 		$t_user_table = plugin_config_get ( 'mantis_user_table' );
@@ -26,6 +43,11 @@ class Helper {
 		return $result;
 	}
 	
+	/**
+	 * Builds the Projects selection table.
+	 * @param Integer $id user ID to retreive projects available.
+	 * @return string
+	 */
 	public function getProjectsOptions($id) {
 		$result = '';
 		$t_projects = user_get_accessible_projects ( $id, true );
@@ -41,16 +63,25 @@ class Helper {
 		return $result;
 	}
 	
+	/**
+	 * Builds the default assignee selection table.
+	 * @param Integer $id project ID to retreive all users assigned to.
+	 * @return string
+	 */
 	public function getAssigneeOptions($id) {
 		$result = '';
 		$t_projects = project_get_all_user_rows ( $id );
 		for($i = 0; $i < count ( $t_projects ); $i ++) {
 			$result .= '<option value="' . $t_projects [$i] ['id'] . '">' . $t_projects [$i] ['realname'] . "</option>\r";
-		}
-		
+		}		
 		return $result;
 	}
 	
+	/**
+	 * Builds the default category selection table.
+	 * @param Integer $id project ID to retreive all possible categories.
+	 * @return string
+	 */
 	public function getCategoriesOptions($id) {
 		$result = '';
 		$t_projects = category_get_all_rows ( $id );
@@ -61,9 +92,7 @@ class Helper {
 	}
 	
 	/**
-	 * Method used to add the table with additional setting options.
-	 * 1. The category ID that will be used for the submited task by default.
-	 * 2. Default assignee ID that will handle the task further. 
+	 * Method used to fill the table with TinyView setting options.
 	 * @param Integer $user ID
 	 * @param Integer $project ID
 	 * @param Integer $category ID
@@ -80,6 +109,11 @@ class Helper {
 		return $result;		
 	} 
 	
+	/**
+	 * Removes the configuration record by ID
+	 * @param Integer $id
+	 * @return Ambigous <NULL, ADORecordSet, boolean, unknown>
+	 */
 	public function remove($id) {
 		$result = null;
 		if ($id && $id != '') {
@@ -89,6 +123,12 @@ class Helper {
 		return $result;
 	}
 	
+	/**
+	  * Retreives the default category stored in TinyView configuration.
+	 * @param Integer $user
+	 * @param Integer $project
+	 * @return Integer or FALSE if category was not found.
+	 */
 	public function getDefCategory($user, $project){
 		$result = '';
 		$query = 'SELECT category_id FROM mantis_tiny_view
@@ -98,6 +138,12 @@ class Helper {
 		return $result!=NULL ? $result['category_id'] : false;
 	}
 	
+	/**
+	 * Retreives the default assignee stored in TinyView configuration. 
+	 * @param Integer $user
+	 * @param Integer $project
+	 * @return Integer or FALSE if assignee was not found. 
+	 */
 	public function getDefAssignee($user, $project){
 		$result = '';
 		$query = 'SELECT assignee_id FROM mantis_tiny_view
@@ -107,6 +153,10 @@ class Helper {
 		return $result!=NULL ? $result['assignee_id'] : false;
 	}
 	
+	/**
+	 * Builds Tiny view table of existing users configuration.
+	 * @return string
+	 */
 	public function getTinyTable() {
 		$result = '';
 		$query = 'SELECT t.id, user_id, project_id, realname, name ' . 'FROM ' . 
@@ -131,6 +181,13 @@ class Helper {
 		return $result;
 	}
 	
+	/**
+	 * Virifies if Tiny view should be applied for particlar user based on the project
+	 * he is accessing.
+	 * @param Integer $user
+	 * @param Integer $project
+	 * @return boolean
+	 */
 	public function isTinyView($user, $project = null) {
 		$query = "SELECT * FROM " . plugin_config_get ( 'mantis_tiny_table' ) . " WHERE user_id = $user";
 		if ($project) {
