@@ -17,7 +17,6 @@ $(document).ready(function() {
 		var str = $(this).serialize();
 		$.post($(this).attr('action'), str, function(data){
 			tinyview.reload();
-			//tinyview.settings();
 		});
 		e.preventDefault();
 	 });
@@ -27,11 +26,12 @@ var tinyview = {
 		userchange: function(e) {
 			if(e.selectedIndex > 0)  {
 				$('#project').removeAttr('disabled');
+				$('#assignee').removeAttr('disabled');
+				$('#category').removeAttr('disabled');
 				var search = '<?php echo plugin_config_get('projects_list')?>' + '&id='+e.value;
 				$.post(search, function(data){
 					if(data && data != ''){
 						$('#project').html(data);
-						$('#tiny').removeAttr('disabled');
 					}	
 				});
 			}else{
@@ -40,17 +40,16 @@ var tinyview = {
 		},
 		projectchange: function(e) {
 			if(e.selectedIndex > 0)  {
+				$('#apply').removeAttr('disabled');
 				var search = '<?php echo plugin_config_get('asiignee_list')?>' + '&id='+e.value;
 				$.post(search, function(data){
 					if(data && data != ''){
-						$('#assignee').removeAttr('disabled');
 						$('#assignee').html(data);
 					}	
 				});
 				var search = '<?php echo plugin_config_get('categories_list')?>' + '&id='+e.value;
 				$.post(search, function(data){
 					if(data && data != ''){
-						$('#category').removeAttr('disabled');
 						$('#category').html(data);
 					}	
 				});
@@ -58,15 +57,6 @@ var tinyview = {
 				tinyview.disablectrl();
 			}
 		},	
-		marked: function(e) {
-			if(e.checked){
-				$('#apply').removeAttr('disabled');
-				$('#setting').fadeIn('fast', function() {});
-			}else{
-				$('#apply').attr('disabled', 'disabled');
-				$('#setting').fadeOut('slow', function() {});
-			}
-		},
 		remove: function(e){
 			$.get(e.href, function(data){
 				tinyview.reload();
@@ -76,11 +66,6 @@ var tinyview = {
 		reload: function(){
 			$.get('<?php echo plugin_config_get('tiny_table')?>', function(data){
 				$('#list').html(data);
-			});
-		},
-		settings: function(){
-			$.get('<?php echo plugin_config_get('tiny_setting')?>', function(data){
-				$('#setting').html(data);
 			});
 		},
 		disablectrl: function(){
@@ -101,7 +86,7 @@ var tinyview = {
 <div id="control">
 	<table align="center" class="width75" cellspacing="1">
 	<tr>
-		<td class="form-title" colspan="3">
+		<td class="form-title" colspan="2">
 			<?php echo plugin_lang_get( 'title' ) . ': ' . plugin_lang_get( 'config' )?>
 		</td>
 	</tr>
@@ -119,19 +104,15 @@ var tinyview = {
 				<option><?php echo plugin_lang_get('select_project')?></option>			
 			</select>		
 		</td>
-		<td class="tiny">
-			<label for="tiny"><?php echo plugin_lang_get('tiny')?></label>
-			<input id="tiny" type="checkbox" name="tiny" disabled="disabled" onclick="tinyview.marked(this)" />
-		</td>
 	</tr>
-	<tr <?php echo helper_alternate_class( )?> id="setting" style="display: none">
+	<tr <?php echo helper_alternate_class( )?>>
 		<td class="projects">
 			<label for="assignee"><?php echo plugin_lang_get('assignee')?></label>
 			<select id="assignee" name="assignee" disabled="disabled">
 				<option><?php echo plugin_lang_get('select_assignee')?></option>			
 			</select>		
 		</td>
-		<td class="projects"  colspan="2">
+		<td class="projects" >
 			<label for="category"><?php echo plugin_lang_get('category')?></label>
 			<select id="category" name="category" disabled="disabled">
 				<option><?php echo plugin_lang_get('select_category')?></option>			
@@ -139,7 +120,7 @@ var tinyview = {
 		</td>
 	</tr>
 	<tr>
-		<td class="center" colspan="3">
+		<td class="center" colspan="2">
 			<input type="submit" class="button" id="apply" value="<?php echo plugin_lang_get( 'apply' )?>" disabled="disabled" />
 		</td>
 	</tr>
