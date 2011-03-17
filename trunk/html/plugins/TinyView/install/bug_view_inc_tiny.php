@@ -80,7 +80,7 @@
 			$tpl_bug_due_date = '';
 		}
 	}
-
+$tpl_show_upload_form = !$tpl_force_readonly && !bug_is_readonly( $f_bug_id );
 	$tpl_show_additional_information = !is_blank( $tpl_bug->additional_information ) && in_array( 'additional_info', $t_fields );
 	$tpl_show_steps_to_reproduce = !is_blank( $tpl_bug->steps_to_reproduce ) && in_array( 'steps_to_reproduce', $t_fields );
 	$tpl_show_projection = in_array( 'projection', $t_fields );
@@ -304,9 +304,29 @@
 
 	echo '</table>';
 
+	# File upload box
+	if ( $tpl_show_upload_form ) { 
+		include( $tpl_mantis_dir . 'bug_file_upload_inc.php' );
+	}
+	
 	# User list sponsoring the bug
 	include( $tpl_mantis_dir . 'bug_sponsorship_list_view_inc.php' );
 
+	# Bugnotes and "Add Note" box
+	if ( 'ASC' == current_user_get_pref( 'bugnote_order' ) ) {
+		include( $tpl_mantis_dir . 'bugnote_view_inc.php' );
+
+		if ( !$tpl_force_readonly ) {
+			include( $tpl_mantis_dir . 'bugnote_add_inc.php' );
+		}
+	} else {
+		if ( !$tpl_force_readonly ) {
+			include( $tpl_mantis_dir . 'bugnote_add_inc.php' );
+		}
+
+		include( $tpl_mantis_dir . 'bugnote_view_inc.php' );
+	}
+	
 	# Allow plugins to display stuff after notes
 	event_signal( 'EVENT_VIEW_BUG_EXTRA', array( $f_bug_id ) );
 
