@@ -7,8 +7,9 @@ require_once (config_get ( 'class_path' ) . 'MantisPlugin.class.php');
 require_once 'core/Helper.php';
 
 /**
- * Plugin base class
+ * TinyView Plugin base class
  * @author kdidenko
+ * @author astabryn
  */
 class TinyViewPlugin extends MantisPlugin {
 	
