@@ -1,0 +1,1 @@
+Mantis plugin providing the possibility to manage fields visibility based on the particular user account and the project.
